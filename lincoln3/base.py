@@ -18,7 +18,7 @@ class Operation(object):
 
         return self.output
 
-    def backward(self, output_grad: ndarray) -> ndarray:
+    def backward(self, output_grad: ndarray, skeep_param_grads = None) -> ndarray:
 
         assert_same_shape(self.output, output_grad)
 
@@ -41,12 +41,15 @@ class ParamOperation(Operation):
         super().__init__()
         self.param = param
 
-    def backward(self, output_grad: ndarray) -> ndarray:
+    def backward(self, output_grad: ndarray, skeep_param_grads = False) -> ndarray:
 
         assert_same_shape(self.output, output_grad)
 
         self.input_grad = self._input_grad(output_grad)
-        self.param_grad = self._param_grad(output_grad)
+        if not skeep_param_grads:
+            self.param_grad = self._param_grad(output_grad)
+        else:
+            self.param_grad = None
 
         assert_same_shape(self.input_, self.input_grad)
 

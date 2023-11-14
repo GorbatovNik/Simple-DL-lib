@@ -42,12 +42,12 @@ class Layer(object):
 
         return self.output
 
-    def backward(self, output_grad: ndarray) -> ndarray:
+    def backward(self, output_grad: ndarray, skeep_param_grads = False) -> ndarray:
 
         assert_same_shape(self.output, output_grad)
 
         for operation in self.operations[::-1]:
-            output_grad = operation.backward(output_grad)
+            output_grad = operation.backward(output_grad, skeep_param_grads)
 
         input_grad = output_grad
 

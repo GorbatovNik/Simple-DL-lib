@@ -228,7 +228,7 @@ class ConjugateGradient(Optimizer):
             self.net.forward_loss_from_neuron(layerIdx, neuronIdx)
             loss_grad = self.net.loss.backward()
 
-            return self.net.backward_loss_to_layer(loss_grad, layerIdx)[:, neuronIdx]
+            return self.net.backward_loss_to_neuron(loss_grad, layerIdx, neuronIdx)
 
         weight_lams = [[0.0 for neuIdx in range(lay.params[0].shape[1])] for _, lay in enumerate(self.net.layers)]
         # bias_lams = [0.0 for _, lay in enumerate(self.net.layers)]
@@ -252,9 +252,9 @@ class ConjugateGradient(Optimizer):
                     cit += 1
                     start_point = start_point + search_antigradient * lam
                     self.net.layers[layerIdx].params[0][:, neuronIdx] = start_point
-                    self.net.forward_loss_from_neuron(layerIdx, neuronIdx)
+                    print('forward loss = ' + str(self.net.forward_loss_from_neuron(layerIdx, neuronIdx)))
                     loss_grad = self.net.loss.backward()
-                    grad = self.net.backward_loss_to_layer(loss_grad, layerIdx)[:, neuronIdx]
+                    grad = self.net.backward_loss_to_neuron(loss_grad, layerIdx, neuronIdx)
                     search_antigradient = -lay.param_grads[0][:, neuIdx]
                     are_equal = np.allclose(search_antigradient, -grad, atol=1e-15)
                     lam, iter, _, new_fval, old_fval, _ = line_search(obj_func, obj_grad, start_point, search_antigradient, c2=0.1)

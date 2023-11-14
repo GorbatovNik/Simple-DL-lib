@@ -71,25 +71,58 @@ class NeuralNetwork(LayerBlock):
 
     
     def forward_loss_from_neuron(self, layerIdx, neuronIdx):
-        X_out = self.layers[layerIdx].input_
-        # self.layers[layerIdx].params[paramIdx][:, neuronIdx] += stepVector (should be in optimizer)
-        neuron_params = self.layers[layerIdx].params[0][:, neuronIdx]
+        lay = self.layers[layerIdx]
+        X_out = lay.input_
+        # lay.params[paramIdx][:, neuronIdx] += stepVector (should be in optimizer)
+        neuron_params = lay.params[0][:, neuronIdx]
         neuron_out = np.dot(X_out, neuron_params)
-        self.layers[layerIdx].output[:, neuronIdx] = neuron_out
-        X_out = self.layers[layerIdx].output
-        for i in range(layerIdx + 1, len(self.layers)):
+        lay.operations[0].output[:, neuronIdx] = neuron_out
+        lay.operations[1].input_[:, neuronIdx] = neuron_out
+        neuron_out += lay.params[1][0, neuronIdx]
+        lay.operations[1].output[:, neuronIdx] = neuron_out
+        act = lay.operations[2]
+        act.input_[:, neuronIdx] = neuron_out
+        neuron_out = act.just_activate(neuron_out)
+        act.output[:, neuronIdx] = neuron_out # need sometimes for calc grad
+        lay.output[:, neuronIdx] = neuron_out
+
+        # X_out = lay.output
+        for i in range(layerIdx, len(self.layers)):
             layer = self.layers[i]
             X_out = layer.forward(X_out)
 
         return self.loss.forward(X_out, self.loss.target)
 
-    def backward_loss_to_layer(self, loss_grad: ndarray, layerIdx) -> ndarray:
+    def backward_loss_to_neuron(self, loss_grad: ndarray, layerIdx, neuronIdx) -> ndarray:
+        print('backward_loss_to_neuron( lay = ' + str(layerIdx) + ', neu = ' + str(neuronIdx))
+        print('loss_grad:')
+        print(loss_grad)
         grad = loss_grad
-        for i in range(len(self.layers) - 1, layerIdx - 1, -1):
+        for i in range(len(self.layers) - 1, layerIdx+1, -1):
             layer = self.layers[i]
-            grad = layer.backward(grad)
-    
-        return layer.param_grads[0]
+            grad = layer.backward(grad, skeep_param_grads=True)
+        if len(self.layers) > layerIdx + 1:
+            prev_lay = self.layers[layerIdx + 1]
+            grad = prev_lay.operations[2].backward(grad)
+            grad = prev_lay.operations[1].backward(grad, skeep_param_grads=True)
+            grad = np.dot(grad, prev_lay.params[0][neuronIdx, :])
+            prev_lay.operations[0].input_grad[:, neuronIdx] = None
+            prev_lay.operations[0].param_grad = None
+        else:
+            grad = loss_grad[:, neuronIdx]
+
+        lay = self.layers[layerIdx]
+        grad = lay.operations[2].just_grad(grad, lay.operations[2].output[:, neuronIdx])
+        print('grad of activate func:')
+        print(grad)
+        lay.operations[1].input_grad[:, neuronIdx] = None
+        lay.operations[1].param_grad[:, neuronIdx] = None
+        grad = np.dot(lay.input_.transpose(1, 0), grad)
+        print('grad of neu:')
+        print(grad)
+        print()
+
+        return grad
 
     def train_batch(self,
                     X_batch: ndarray,
