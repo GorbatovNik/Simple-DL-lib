@@ -33,15 +33,6 @@ class Conv2D_Op(ParamOperation):
         return np.concatenate([other, inp_pad, other])
 
 
-    # def _pad_2d(self,
-    #             inp: ndarray):
-    #     '''
-    #     Input is a 3 dimensional tensor, first dimension batch size
-    #     '''
-    #     outs = [self._pad_2d_obs(obs, self.param_pad) for obs in inp]
-    #
-    #     return np.stack(outs)
-
     def _pad_2d_channel(self,
                         inp: ndarray):
         '''
@@ -66,8 +57,6 @@ class Conv2D_Op(ParamOperation):
         conv_in: [batch_size, channels, img_width, img_height]
         param: [in_channels, out_channels, fil_width, fil_height]
         '''
-    #     assert_dim(obs, 4)
-    #     assert_dim(param, 4)
         batch_size = self.input_.shape[0]
         img_height = self.input_.shape[2]
         img_size = self.input_.shape[2] * self.input_.shape[3]

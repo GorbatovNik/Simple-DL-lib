@@ -264,27 +264,9 @@ class BFGS(Optimizer):
             z_norm = np.sqrt(np.sum(z**2))
             print('z norm = ' + str(z_norm))
             assert not math.isnan(z_norm)
-            # else:
-            #     print('ro dropped')
 
-        # for layIdx, lay in enumerate(self.net.layers):
         start_point = net_params_to_vector()
         search_direction = self.bfgs['z'].copy()
-        # search_direction /= np.linalg.norm(search_direction)
-        # st_was = start_point.copy()
-        # layerIdx = layIdx
-        # print('step size: ' + str(np.linalg.norm(lay.param_grads[0].reshape(-1))))
-        # print('descent: ' + str(obj_func(start_point) - obj_func(start_point - lay.param_grads[0].reshape(-1))))
-
-        # obj_grad(start_point)
-        # # if lam is None:
-        # grad = net_param_grads_to_vector()
-        # grad *= 0.01
-        # print('grad step size: ' + str(np.linalg.norm(grad)))
-        # grad_win = obj_func(start_point) - obj_func(start_point - grad)
-        # print('grad descent: ' + str(grad_win))
-        # if grad_win < 0.0:
-        #     assert False, 'grad_win = ' + str(grad_win)
 
         lam, iter, grad_calcs, new_fval, old_fval, _ = line_search(obj_func, obj_grad, start_point, search_direction, c1=1e-4, c2=0.9)
 
