@@ -45,7 +45,7 @@ model = NeuralNetwork(
             loss = MeanSquaredError(normalize=True), 
 seed=20190119)
 
-trainer = Trainer(model, BFGS(depth=6, mini_epochs=15))
+trainer = Trainer(model, SGDMomentum())
 trainer.fit(X_train, train_labels, X_test, test_labels,
             epochs = 20,
             eval_every = 1,
