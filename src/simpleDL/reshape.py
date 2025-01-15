@@ -1,6 +1,6 @@
 from numpy import ndarray
 
-from base import Operation
+from simpleDL.base import Operation
 
 
 class Flatten(Operation):

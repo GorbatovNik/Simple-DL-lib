@@ -3,7 +3,7 @@ from numpy import ndarray
 import warnings
 warnings.filterwarnings("error", category=RuntimeWarning)
 
-from utils.np_utils import (assert_same_shape,
+from simpleDL.utils.np_utils import (assert_same_shape,
                        softmax,
                        normalize,
                        exp_ratios,

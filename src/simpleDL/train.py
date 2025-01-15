@@ -6,9 +6,9 @@ import numpy as np
 from numpy import ndarray
 import math
 
-from network import NeuralNetwork
-from optimizers import Optimizer
-from utils.np_utils import permute_data
+from simpleDL.network import NeuralNetwork
+from simpleDL.optimizers import Optimizer
+from simpleDL.utils.np_utils import permute_data
 
 from tqdm import tqdm
 import keyboard

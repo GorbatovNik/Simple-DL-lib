@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import ndarray
 
-from base import ParamOperation
+from simpleDL.base import ParamOperation
 
 
 class WeightMultiply(ParamOperation):

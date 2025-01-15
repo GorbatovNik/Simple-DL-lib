@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simpleDL"
+version = "0.1.0"
+description = "A modular library for defining, training, and evaluating neural networks"
+authors = [
+    {name = "Nikita Gorbatov", email = "gorbatov.nik@gmail.com"}
+]
+license = {'text' = "MIT"}
+dependencies = [
+	"numpy",
+	"scipy",
+	"python-mnist",
+	"tqdm",
+	"keyboard"
+]
+requires-python = ">= 3.8"
+readme = "README.md"

@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.optimize import line_search
 import warnings
-import random
 import math
 from collections import deque
 warnings.filterwarnings("ignore")

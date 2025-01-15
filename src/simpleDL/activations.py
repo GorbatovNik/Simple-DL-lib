@@ -1,6 +1,6 @@
 import numpy as np
 from numpy import ndarray
-from base import Operation
+from simpleDL.base import Operation
 
 
 class Linear(Operation):

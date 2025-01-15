@@ -1,9 +1,8 @@
 from typing import List
 from numpy import ndarray
-import numpy as np
 
-from layers import Layer
-from losses import Loss, MeanSquaredError
+from simpleDL.layers import Layer
+from simpleDL.losses import Loss, MeanSquaredError
 
 
 class LayerBlock(object):

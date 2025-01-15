@@ -3,13 +3,14 @@ from typing import List
 import numpy as np
 from numpy import ndarray
 
-from activations import Linear
-from base import Operation, ParamOperation
-from conv import Conv2D_Op
-from dense import WeightMultiply, BiasAdd
-from dropout import Dropout
-from reshape import Flatten
-from utils.np_utils import assert_same_shape
+
+from simpleDL.activations import Linear
+from simpleDL.base import Operation, ParamOperation
+from simpleDL.conv import Conv2D_Op
+from simpleDL.dense import WeightMultiply, BiasAdd
+from simpleDL.dropout import Dropout
+from simpleDL.reshape import Flatten
+from simpleDL.utils.np_utils import assert_same_shape
 
 
 class Layer(object):
