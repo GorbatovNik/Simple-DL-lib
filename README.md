@@ -1,4 +1,4 @@
-# SimpleDL
+# simpleDL
 
 A modular library for defining, training, and evaluating neural networks. It supports various layers, activation functions, loss functions, and optimizers.
 
