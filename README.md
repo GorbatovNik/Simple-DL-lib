@@ -11,12 +11,9 @@ A modular library for defining, training, and evaluating neural networks. It sup
 - **Trainer**: Simplifies model training with configurable parameters.
 - **Dataset**: MNIST support with preprocessing utilities (normalization, one-hot encoding).
 
----
+## Instalation
+- Go to the root directory (where is pyproject.toml) and run:
+  
+1) ```python -m build```
 
-## Installation
-
-Install dependencies:
-
-```bash
-pip install numpy mnist
-
+2) ```pip install dist/simpleDL-0.1.0-py3-none-any.whl```
